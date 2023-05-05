@@ -15,17 +15,17 @@ public class BowlingGameController {
 
 	private int rollId;
 	private int[] rolls;
-	private boolean bonusBall;
-	boolean bonusBallMesageSent;
+	private boolean bonusFrame;
+	boolean bonusFrameMesageSent;
 	@Autowired
 	BowlingGameRepo repo;
 
 	@RequestMapping("/BowlingGame")
 	public ModelAndView game(Model model) {
 		rollId = 1;
-		rolls = new int[22];
-		bonusBall = false;
-		bonusBallMesageSent = false;
+		rolls = new int[23];
+		bonusFrame = false;
+		bonusFrameMesageSent = false;
 		repo.deleteAll();
 		model.addAttribute("frame", 1);
 		model.addAttribute("ball", 1);
@@ -55,7 +55,7 @@ public class BowlingGameController {
 			if (rollPrev.getPins() + pins == 10) {
 				model.addAttribute("gameMessage", "NICE, SPARE!!");
 				if (frame == 10) {
-					bonusBall = true;
+					bonusFrame = true;
 				}
 			}
 		}
@@ -70,23 +70,13 @@ public class BowlingGameController {
 		if (ball == 1 && pins == 10) {
 			model.addAttribute("gameMessage", "NICE, STRIKE!!");
 			if (frame == 10) {
-				bonusBall = true;
-				ball = 3;
-			} else {
-				frame++;
-			}
-		} else if (ball == 2) {
-			if (bonusBall) {
-				ball = 3;
-			} else {
-				frame++;
-				ball = 1;
-			}
-		} else if (ball == 3) {
-			if (pins == 10) {
-				model.addAttribute("gameMessage", "NICE, STRIKE!!");				
+				bonusFrame = true;
 			}
 			frame++;
+
+		} else if (ball == 2) {
+			frame++;
+			ball = 1;
 		} else {
 			ball = 2;
 		}
@@ -95,7 +85,7 @@ public class BowlingGameController {
 			model.addAttribute("gameMessage", "FAIL, MISS!!");
 		}
 
-		if (frame == 11) {
+		if (frame == 12 || (frame == 11 && !bonusFrame)) {
 			model.addAttribute("gameOverMessage", "GAME OVER!!");
 		}
 
@@ -112,17 +102,16 @@ public class BowlingGameController {
 		model.addAttribute("frame", frame);
 		model.addAttribute("ball", ball);
 		model.addAttribute("score", score);
-		//model.addAttribute("bonusBall", bonusBall);
-		
-		if (bonusBall) {
-			if (!bonusBallMesageSent) {
-				model.addAttribute("bonusBallMesage", "BONUS BALL!!");
-				bonusBallMesageSent = true;
+
+		if (bonusFrame) {
+			if (!bonusFrameMesageSent) {
+				model.addAttribute("bonusFrameMesage", "BONUS BALLS!!");
+				bonusFrameMesageSent = true;
 			} else {
-				model.addAttribute("bonusBallMesage", "");
-			}			
+				model.addAttribute("bonusFrameMesage", "");
+			}
 		}
-		
+
 		ModelAndView mv = new ModelAndView("game.jsp");
 		return mv;
 	}

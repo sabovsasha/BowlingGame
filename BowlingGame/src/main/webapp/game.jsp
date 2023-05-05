@@ -28,7 +28,7 @@
 	</table><br>
 	<table width="75%" style="color: red;">
 		<tr>
-			<td align="center"><B>&nbsp; ${bonusBallMesage}</B></td>			
+			<td align="center"><B>&nbsp; ${bonusFrameMesage}</B></td>			
 		</tr>
 	</table><br>
 	<%
@@ -70,17 +70,24 @@
 	%>
 	<table width="75%" border="2">
 		<tr>
-			<td width="10%">Frame</td>
-			<td width="9%">1</td>
-			<td width="9%">2</td>
-			<td width="9%">3</td>
-			<td width="9%" >4</td>
-			<td width="9%">5</td>
-			<td width="9%">6</td>
-			<td width="9%">7</td>
-			<td width="9%">8</td>
-			<td width="9%">9</td>
-			<td width="9%">10</td>			
+			<td width="12%">Frame</td>
+			<td width="8%">1</td>
+			<td width="8%">2</td>
+			<td width="8%">3</td>
+			<td width="8%" >4</td>
+			<td width="8%">5</td>
+			<td width="8%">6</td>
+			<td width="8%">7</td>
+			<td width="8%">8</td>
+			<td width="8%">9</td>
+			<td width="8%">10</td>			
+			<%
+				if (request.getAttribute("bonusFrameMesage") != null) {
+			%>
+			<td width="8%">Extra</td>
+			<%
+				}
+			%>		
 		</tr>
 		<tr>			
 			<td>Ball 1</td>
@@ -93,7 +100,14 @@
 			<td>${roll71}</td>
 			<td>${roll81}</td>
 			<td>${roll91}</td>
-			<td>${roll101}</td>			
+			<td>${roll101}</td>
+			<%
+				if (request.getAttribute("bonusFrameMesage") != null) {
+			%>
+			<td>${roll111}</td>
+			<%
+				}
+			%>
 		</tr>
 		<tr>
 			<td>Ball 2</td>
@@ -106,19 +120,15 @@
 			<td>${roll72}</td>
 			<td>${roll82}</td>
 			<td>${roll92}</td>
-			<td>${roll102}</td>			
-		</tr>
-	<%
-	if (request.getAttribute("bonusBallMesage") != null) {		
-	%>
-		<tr>
-			<td>Ball 3</td>
-			<td  colspan="9"></td>			
-			<td>${roll103}</td>			
+			<td>${roll102}</td>
+			<%
+				if (request.getAttribute("bonusFrameMesage") != null) {
+			%>
+			<td>${roll112}</td>
+			<%
+				}
+			%>
 		</tr>	
-	<%
-	}
-	%>			
 	</table><br>
 	<table>
 		<tr>
